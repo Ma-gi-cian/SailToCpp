@@ -23,12 +23,15 @@ int main(int argc, char **argv) {
 	// we got the data - pass it to the tokenizer 
     std::string contents = buffer.str();
 
-    sail::Tokenizer tokenizer;
-    std::vector<sail::Token> tokens = tokenizer.parse(contents);
+    Tokenizer tokenizer;
+    std::vector<Token> tokens = tokenizer.parse(contents);
 
     for(auto i : tokens)
     {
-      std::cout << i.sText << "";
+      if(i.sType == TokenType::IDENTIFIER)
+      {
+        std::cout << i.sText << std::endl;
+      }
     }
 
   }
