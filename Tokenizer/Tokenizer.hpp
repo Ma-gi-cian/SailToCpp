@@ -111,7 +111,7 @@ namespace sail
         COMMENT_BLOCK, // /* */
 
         // Special
-        EOF_TYPE, // Changed from EOF (EOF is a macro in cstdio)
+        EOF_TYPE,
         UNKNOWN
     };
 
@@ -123,6 +123,7 @@ namespace sail
         size_t startoff;
         size_t endoff;
         size_t linenumber;
+        const char* filepath;
     };
 
     class Tokenizer
