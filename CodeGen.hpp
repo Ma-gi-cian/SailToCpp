@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <iostream>
 #include "Parser/AST.hpp"
-#include "Parser/CodeGen.hpp"
 
 /**
     This is the code generation module -> we will walk the entire ast - and generate the code.
