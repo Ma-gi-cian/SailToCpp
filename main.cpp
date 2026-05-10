@@ -4,36 +4,61 @@
 #include <cassert>
 #include <vector>
 #include "Tokenizer/Tokenizer.hpp"
+#include "Parser/Parser.hpp"
+#include "Parser/AST.hpp"
+#include "CodeGen.hpp"
 
-int main(int argc, char **argv) {
-
-  if (argc <  1) {
-    assert(argc > 0);
-    std::cerr << "Usage " << argv[0] << " <input.sail>" << std::endl;
-    return 1;
-  } else  {
-    std::stringstream buffer;
-    std::ifstream file(argv[1]);
-    if(!file.is_open()){
-      std::cerr << "Error: opening file " << argv[1] << std::endl;
-      return 1;
+int main(int argc, char** argv)
+{
+    if (argc < 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <input.sail> [output.hpp]\n";
+        std::cerr << "  If output.hpp is omitted, prints AST to stdout.\n";
+        return 1;
     }
-    buffer << file.rdbuf();
 
-	// we got the data - pass it to the tokenizer 
+    std::ifstream file(argv[1]);
+    if (!file.is_open())
+    {
+        std::cerr << "Error: could not open file " << argv[1] << "\n";
+        return 1;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
     std::string contents = buffer.str();
 
+    // Tokenize
     Tokenizer tokenizer;
     std::vector<Token> tokens = tokenizer.parse(contents);
 
-    for(auto i : tokens)
-    {
-      if(i.sType == TokenType::IDENTIFIER)
-      {
-        std::cout << i.sText << std::endl;
-      }
-    }
+    // Parse
+    Parser parser(tokens);
+    auto program = parser.parse();
 
-  }
-  return 0;
+    if (argc >= 3)
+    {
+        // get the output path
+        std::string outputPath = argv[2];
+
+        CodeGen codegen;
+        std::string generated = codegen.generate(program.get());
+
+        std::ofstream out(outputPath);
+        if (!out.is_open())
+        {
+            std::cerr << "Error: could not open output file " << outputPath << "\n";
+            return 1;
+        }
+        out << generated;
+        std::cout << "Generated: " << outputPath << "\n";
+    }
+    else
+    {
+        // print the ast would be a good idea - need to implement that function - something like : 
+        //`printNode(program.get());
+        std::cout << "We got here" << std::endl;
+    }
+    return 0;
 }
+

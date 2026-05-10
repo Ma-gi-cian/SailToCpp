@@ -5,22 +5,11 @@ function clause execute (SHA256SIG0(rs1,rd)) = {
   RETIRE_SUCCESS
 }
 
-
-function clause execute (SHA512SIG1H(rs2, rs1, rd)) = {
-  X(rd) = EXTS((X(rs1) <<  3) ^ (X(rs1) >>  6) ^ (X(rs1) >> 19) ^
-               (X(rs2) >> 29)                  ^ (X(rs2) << 13) );
-  RETIRE_SUCCESS
-}
-
-
-function clause execute (SHA512SIG1L(rs2, rs1, rd)) = {
-  X(rd) = EXTS((X(rs1) <<  3) ^ (X(rs1) >>  6) ^ (X(rs1) >> 19) ^
-               (X(rs2) >> 29) ^ (X(rs2) << 26) ^ (X(rs2) << 13) );
-  RETIRE_SUCCESS
-}
-
-function clause execute (SHA512SUM0R(rs2, rs1, rd)) = {
-  X(rd) = EXTS((X(rs1) << 25) ^ (X(rs1) << 30) ^ (X(rs1) >> 28) ^
-               (X(rs2) >>  7) ^ (X(rs2) >>  2) ^ (X(rs2) <<  4) );
+function clause execute(ror(rs1, rs2)) = {
+  let shamt = if   xlen == 32
+              then X(rs2)[4..0]
+              else X(rs2)[5..0];
+  let result = (X(rs1) >> shamt) | (X(rs1) << (xlen - shamt));
+  X(rd) = result;
   RETIRE_SUCCESS
 }

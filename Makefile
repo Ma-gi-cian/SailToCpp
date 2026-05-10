@@ -1,10 +1,14 @@
 CC=g++
 CFLAGS=-Wall -Wextra
-SOURCES=main.cpp Tokenizer/Tokenizer.cpp
+GDB=-ggdb -g
+SOURCES=main.cpp Tokenizer/Tokenizer.cpp Parser/Parser.cpp
 STANDARD=c++17
 
 all : 
-	$(CC) $(CFLAGS) -std=$(STANDARD)  $(SOURCES) -o lang && ./lang examples/sha256.sail
+	$(CC) $(CFLAGS) -std=$(STANDARD)  $(SOURCES) -o lang && ./lang examples/sha256.sail hello.cpp
+
+gdb : 
+	$(CC) $(GDB) -std=$(STANDARD) $(SOURCES) -o debug && gdb --args ./lang examples/sha256.sail hello.cpp
 
 clean:
 	rm main

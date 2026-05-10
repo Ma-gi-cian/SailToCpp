@@ -186,7 +186,7 @@ vector<Token> Tokenizer::parse(const std::string & contents)
                 }
                 else
                 {
-                    create_token(TokenType::MINUS, "-", tok_start, i);
+                    create_token(TokenType::MINUS, "-", tok_start, ++i);
                 }
                 break;
 
