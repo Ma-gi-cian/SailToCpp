@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Wextra
+CFLAGS=
 GDB=-ggdb -g
 SOURCES=main.cpp Tokenizer/Tokenizer.cpp Parser/Parser.cpp
 STANDARD=c++17
