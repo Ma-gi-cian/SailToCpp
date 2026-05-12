@@ -13,7 +13,7 @@ template <typename XLEN> struct SHA256SIG0Op
             result = static_cast<XLEN>(static_cast<int32_t>(result));
             return result;
      }
-   }
+   };
 
 template <typename XLEN> struct RorOp
 {
@@ -23,6 +23,6 @@ template <typename XLEN> struct RorOp
             XLEN result = ((rs1 >> shamt) | (rs1 << (xlen - shamt)));
             return result;
      }
-   }
+   };
 
 }

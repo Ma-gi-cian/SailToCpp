@@ -91,7 +91,7 @@ class CodeGen
         }
 
         out << "     }\n";
-        out << "   }\n\n";
+        out << "   };\n\n";
     }
 
     /*For toStructName we will convert the signature - to PascalCase + 'Op' like :
